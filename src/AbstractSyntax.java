@@ -12,20 +12,22 @@ class Program {
 	}
 
 	void display() {
-		for (int i = 0; i < decpart.size(); i++) {
-			System.out.println(decpart.get(i));
-		}
-		for (int j = 0; j < body.members.size(); j++) {
-			System.out.println(body.members.get(j));
-		}
+		System.out.println("int main() {");
+		decpart.display();
+		body.display();
+		System.out.println("}");
 	}
 }
 
 class Declarations extends ArrayList<declare> {
+	public void display() {
+		for(int i=0;i<this.size();i++) this.get(i).display();
+	}
 }
 
 abstract class declare {
-
+	public void display() {	
+	}
 }
 
 class Declaration extends declare {
@@ -41,6 +43,10 @@ class Declaration extends declare {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+	
+	public void display() {
+		System.out.println(color+" "+name+" = "+value);
 	}
 }
 
@@ -78,6 +84,10 @@ class Array extends declare {
 	public void addNode(int y, int x, String value) {
 		(matrix.get(y)).set(x, value);
 	}
+	
+	public void display() {
+		System.out.println(color+" "+name+" = "+matrix);
+	}
 }
 
 class Type {
@@ -100,7 +110,8 @@ class Type {
 }
 
 abstract class Statement {
-
+	public void display() {
+	}
 }
 
 class Skip extends Statement {
@@ -108,7 +119,9 @@ class Skip extends Statement {
 
 class Block extends Statement {
 	public ArrayList<Statement> members = new ArrayList<Statement>();
-
+	public void display() {
+		for(int i=0;i<members.size();i++) members.get(i).display();
+	}
 }
 
 class Assignment extends Statement {
@@ -119,7 +132,9 @@ class Assignment extends Statement {
 		target = t;
 		source = e;
 	}
-
+	public void display() {
+		System.out.println(target+" = "+source);
+	}
 }
 
 class Conditional extends Statement {
@@ -129,6 +144,9 @@ class Conditional extends Statement {
 	Conditional(ArrayList<Expression> E, ArrayList<Block> S) {
 		Exprs = E;
 		Statements = S;
+	}
+	public void display() {
+		
 	}
 }
 
