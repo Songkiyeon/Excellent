@@ -12,7 +12,7 @@ class Program {
 	}
 
 	void display() {
-		System.out.println("int main() {");
+		System.out.println("function main() {");
 		decpart.display();
 		body.display();
 		System.out.println("}");
@@ -146,7 +146,7 @@ class Conditional extends Statement {
 		Statements = S;
 	}
 	public void display() {
-		
+		//@TODO : 컨디션 구현
 	}
 }
 
