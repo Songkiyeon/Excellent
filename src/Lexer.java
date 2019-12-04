@@ -16,7 +16,7 @@ public class Lexer {
     private int tokRow;
     private int tokCol;
     private int tokColor;
-//    
+
     public Lexer (String fileName) { // source filename
         try {
             input = new BufferedReader (new FileReader(termPcompiler.extract_excel(fileName)));
