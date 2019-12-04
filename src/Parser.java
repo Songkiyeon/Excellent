@@ -716,6 +716,7 @@ public class Parser {
 //    	String path = Lexer.class.getResource("").getPath();
         Parser parser  = new Parser(new Lexer("test.xlsx"));
         Program prog = parser.program();
+        TypeChecker T = new TypeChecker(prog);
         prog.display();          
     } 
 }
