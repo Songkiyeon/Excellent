@@ -21,12 +21,13 @@ class Program {
 
 class Declarations extends ArrayList<declare> {
 	public void display() {
-		for(int i=0;i<this.size();i++) this.get(i).display();
+		for (int i = 0; i < this.size(); i++)
+			this.get(i).display();
 	}
 }
 
 abstract class declare {
-	public void display() {	
+	public void display() {
 	}
 }
 
@@ -44,9 +45,9 @@ class Declaration extends declare {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
+
 	public void display() {
-		System.out.println(color+" "+name+" = "+value);
+		System.out.println(color + " " + name + " = " + value);
 	}
 }
 
@@ -84,9 +85,9 @@ class Array extends declare {
 	public void addNode(int y, int x, String value) {
 		(matrix.get(y)).set(x, value);
 	}
-	
+
 	public void display() {
-		System.out.println(color+" "+name+" = "+matrix);
+		System.out.println(color + " " + name + " = " + matrix);
 	}
 }
 
@@ -119,8 +120,10 @@ class Skip extends Statement {
 
 class Block extends Statement {
 	public ArrayList<Statement> members = new ArrayList<Statement>();
+
 	public void display() {
-		for(int i=0;i<members.size();i++) members.get(i).display();
+		for (int i = 0; i < members.size(); i++)
+			members.get(i).display();
 	}
 }
 
@@ -132,8 +135,12 @@ class Assignment extends Statement {
 		target = t;
 		source = e;
 	}
+
 	public void display() {
-		System.out.println(target+" = "+source);
+		target.display();
+		System.out.print("=");
+		source.display();
+		System.out.println();
 	}
 }
 
@@ -145,8 +152,16 @@ class Conditional extends Statement {
 		Exprs = E;
 		Statements = S;
 	}
+
 	public void display() {
-		
+		System.out.print("if ("); Exprs.get(0).display();
+		System.out.println("){"); Statements.get(0).display();
+		System.out.println("}");
+		for(int i=1;i<Exprs.size();i++) {
+			System.out.print("else if ("); Exprs.get(i).display();
+			System.out.println("){"); Statements.get(i).display();
+			System.out.println("}");
+		}
 	}
 }
 
@@ -158,6 +173,19 @@ class Loop extends Statement {
 		Exprs = E;
 		Statements = S;
 	}
+	public void display() {
+		System.out.println("while(true){");
+		System.out.print("if ("); Exprs.get(0).display();
+		System.out.println("){"); Statements.get(0).display();
+		System.out.println("}");
+		for(int i=1;i<Exprs.size();i++) {
+			System.out.print("else if ("); Exprs.get(i).display();
+			System.out.println("){"); Statements.get(i).display();
+			System.out.println("}");
+		}
+		System.out.println("else break;");
+		System.out.println("}");
+	}
 }
 
 class Prt extends Statement {
@@ -165,6 +193,16 @@ class Prt extends Statement {
 
 	Prt(ArrayList<String> l) {
 		this.list = l;
+	}
+	public void display()
+	{
+		System.out.print("console.log(");
+		for(int i =0;i<list.size();i++) {
+			if(i !=0 ) System.out.print("+"); 
+			if(list.get(i).equals("blk")) System.out.print("\" \""); 
+			else System.out.print(list.get(i));
+		}
+		System.out.println(")");
 	}
 }
 
@@ -221,7 +259,8 @@ class Coms extends Statement {
 }
 
 abstract class Expression {
-
+	public void display() {
+	}
 }
 
 class Variable extends Expression {
@@ -244,6 +283,9 @@ class Variable extends Expression {
 		return id.hashCode();
 	}
 
+	public void display() {
+		System.out.print(id);
+	}
 }
 
 class ArrayValue extends Expression {
@@ -270,6 +312,9 @@ class ArrayValue extends Expression {
 		return id.hashCode();
 	}
 
+	public void display() {
+		System.out.print(id+"["+row+"]["+col+"]");
+	}
 }
 
 abstract class Value extends Expression {
@@ -315,6 +360,9 @@ abstract class Value extends Expression {
 			return new FloatValue();
 		throw new IllegalArgumentException("Illegal type in mkValue");
 	}
+	public void display() {
+		System.out.println(type);
+	}
 }
 
 class IntValue extends Value {
@@ -339,6 +387,10 @@ class IntValue extends Value {
 		if (undef)
 			return "undef";
 		return "" + value;
+	}
+	
+	public void display() {
+		System.out.print(value);
 	}
 
 }
@@ -371,7 +423,9 @@ class BoolValue extends Value {
 			return "undef";
 		return "" + value;
 	}
-
+	public void display() {
+		System.out.print(value);
+	}
 }
 
 class CharValue extends Value {
@@ -397,7 +451,9 @@ class CharValue extends Value {
 			return "undef";
 		return "" + value;
 	}
-
+	public void display() {
+		System.out.print(value);
+	}
 }
 
 class FloatValue extends Value {
@@ -423,6 +479,9 @@ class FloatValue extends Value {
 			return "undef";
 		return "" + value;
 	}
+	public void display() {
+		System.out.print(value);
+	}
 }
 
 class Binary extends Expression {
@@ -434,6 +493,12 @@ class Binary extends Expression {
 		term1 = l;
 		term2 = r;
 	}
+	public void display() {
+		term1.display();
+		op.display();
+		term2.display();
+//		System.out.println();
+	}
 }
 
 class Unary extends Expression {
@@ -443,6 +508,10 @@ class Unary extends Expression {
 	Unary(Operator o, Expression e) {
 		op = o;
 		term = e;
+	}
+	public void display() {
+		op.display();
+		term.display();
 	}
 }
 
@@ -513,6 +582,9 @@ class Operator {
 		return val;
 	}
 
+	public void display() {
+		System.out.print(val);
+	}
 	public boolean equals(Object obj) {
 		return val.equals(obj);
 	}

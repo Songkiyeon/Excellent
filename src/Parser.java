@@ -142,13 +142,17 @@ public class Parser {
 		while (!(isReturn())) {
 			if (isNull()) {
 				color_box_row = token.row();
-				color_box_color = token.color();
-				token = lexer.next();
-				continue;
+				if (color_box_color != token.color()) {
+					color_box_color = token.color();
+					break;
+				} else {
+					color_box_color = token.color();
+					token = lexer.next();
+					continue;
+				}
 
 			}
 			if (flag) {
-
 				if (token.row() != color_box_row) {
 					break;
 				}
@@ -213,10 +217,11 @@ public class Parser {
 		//
 
 		// bodyµé
-		while (token.color() != 0) {
-			Block b = statements(true);
-			bl_list.add(b);
-		}
+		color_box_color = token.color();
+		while(token.color() !=0) {
+	           Block b = statements(true);
+	           bl_list.add(b);
+	      }
 		return new Conditional(ex_list, bl_list);
 	}
 
@@ -239,6 +244,7 @@ public class Parser {
 		}
 
 		// bodyµé
+		color_box_color = token.color();
 		while (token.color() != 0) {
 			Block b = statements(true);
 			bl_list.add(b);
@@ -597,6 +603,7 @@ public class Parser {
 	public static void main(String args[]) {
 		Parser parser = new Parser(new Lexer("test.xlsx"));
 		Program prog = parser.program();
+		
 		prog.display();
 	}
 }

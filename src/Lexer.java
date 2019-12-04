@@ -94,7 +94,7 @@ public class Lexer {
             case '\'':  // char literal
                 char ch1 = nextChar();
                 check('\'');
-            return Token.mkCharLiteral("" + ch1, tokRow, tokCol, tokColor);
+            return Token.mkCharLiteral("\'"+ch1+"\'", tokRow, tokCol, tokColor);
          
             case '\"': // string literal
                String r = "";
@@ -102,9 +102,8 @@ public class Lexer {
                   r += ch;
                   ch = nextChar();
                } while (ch !='\"');
-               r = r.substring(1);
                ch = nextChar();
-               return Token.mkStringLiteral(r, tokRow, tokCol, tokColor);
+               return Token.mkStringLiteral(r+"\"", tokRow, tokCol, tokColor);
          
             case eofCh: return Token.eofTok; // ¿¹¿Ü
             case '+': return makeTok(chkOpt('+', Token.plusTok, Token.twoplusTok), tokRow, tokCol, tokColor);
