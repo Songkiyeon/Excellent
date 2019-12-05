@@ -371,9 +371,9 @@ class Array extends declare{
 //	Type type;
 	String name;
 	int color;
-	
 	int x, y;
 	ArrayList<ArrayList<String>> matrix = new ArrayList<ArrayList<String>>();	
+
 	Array(int y, int x, int color, String name){
 		this.y = y;
 		this.x = x;

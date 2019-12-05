@@ -520,11 +520,11 @@ public class Parser {
         		match(TokenType.RightBracket);
         		if(isLeftBracket()) {
         			match(TokenType.LeftBracket);
-        			e = new ArrayValue(token.value(),temp_col,Integer.parseInt(token.value()));  
+        			e = new ArrayValue(id,temp_col,Integer.parseInt(token.value()));  
             		token = lexer.next();
         			match(TokenType.RightBracket);
         		} else {
-        			e = new ArrayValue(token.value(),-1,temp_col);
+        			e = new ArrayValue(id,-1,temp_col);
         		}
         	} else {
                 e = new Variable(id);
