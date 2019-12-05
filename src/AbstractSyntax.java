@@ -196,7 +196,7 @@ class Prt extends Statement {
 	}
 	public void display()
 	{
-		System.out.print("console.log(");
+		System.out.print("alert(");
 		for(int i =0;i<list.size();i++) {
 			if(i !=0 ) System.out.print("+"); 
 			if(list.get(i).equals("blk")) System.out.print("\" \""); 
@@ -214,6 +214,9 @@ class Scn extends Statement {
 		this.pri = pri;
 		this.value = v;
 	}
+	public void display() {
+		System.out.println(value+" = prompt("+pri+")");
+	}
 }
 
 class Scns extends Statement {
@@ -223,6 +226,14 @@ class Scns extends Statement {
 	Scns(String pri, ArrayList<String> v) {
 		this.pri = pri;
 		this.values = v;
+	}
+	public void display() {
+		int len = values.size();
+		System.out.println(values.get(len-1)+" = prompt("+pri+")");
+		System.out.println(values.get(len-1)+" = "+values.get(len-1)+".split(\" \")");		
+		for(int i=0;i<len;i++) {
+			System.out.println(values.get(i)+" = "+values.get(len-1)+"["+i+"]");
+		}
 	}
 }
 
@@ -239,6 +250,16 @@ class Def extends Statement {
 		this.Parameter_name = s;
 		this.b = b;
 		this.ret = r;
+	}
+	public void display() {
+		System.out.print("function "+name+"(");
+		System.out.print(Parameter_name.get(0));
+		for(int i=1;i<Parameter_name.size();i++) System.out.print(","+Parameter_name.get(i));
+		System.out.println("){");
+		b.display();
+		System.out.print("return ");
+		ret.display();
+		System.out.println("\n}");
 	}
 }
 
@@ -521,7 +542,7 @@ class Operator {
 	final static String LT = "<";
 	final static String LE = "<=";
 	final static String EQ = "==";
-	final static String NE = "!=";
+	final static String NE = "<>";
 	final static String GT = ">";
 	final static String GE = ">=";
 	final static String PLUS = "+";
@@ -658,5 +679,4 @@ class Operator {
 	final static public Operator boolMap(String op) {
 		return map(boolMap, op);
 	}
-
 }
