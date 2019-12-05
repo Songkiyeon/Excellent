@@ -116,7 +116,7 @@ public class termPcompiler {
          }
          bw.write(export);
          bw.flush();
-         System.out.println(export);
+         //System.out.println(export);
          return tempfile;
 
       } catch (IOException e) {
