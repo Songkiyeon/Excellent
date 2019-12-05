@@ -6,7 +6,8 @@ public class Parser {
     Lexer lexer;
     int color_box_color;
     int color_box_row;
-  
+    boolean change_color = false;
+    
     public Parser(Lexer ts) { 
         lexer = ts;                          
         token = lexer.next();            
@@ -154,10 +155,17 @@ public class Parser {
    //	        System.out.println("¤³oom!!");
         	if(isNull()){
 	        	color_box_row = token.row();
-	        	color_box_color = token.color();
-	        	token = lexer.next();
-	//	        System.out.println("¤³oom!!");
-	        	continue;
+
+	        	if(color_box_color != token.color()) {
+		        	color_box_color = token.color();
+//		        	token = lexer.next();
+	        	
+		        	break;
+	        	} else {
+		        	color_box_color = token.color();	        		
+		        	token = lexer.next();
+    	        	continue;
+	        	}
 	        	
 	        }
         	if(flag) {
@@ -243,13 +251,10 @@ public class Parser {
 //    	System.out.println("here:");
 //    	System.out.println(token.value());
 //    	System.out.println(token.color());
-    	while(token.color()!=0) {
-//        	System.out.println("Check4");
-//    		token = lexer.next();//ÇÑÄ­ ¶ç°í ºÎÅÍ ¹Ùµð
+		while(token.color() !=0) {
         	Block b = statements(true);
-//        	System.out.println("Check5");
         	bl_list.add(b);
-    	}
+		}
 //    	System.out.print("conditional OUT : ");
 //    	System.out.println(token.value());
 //    	System.out.print("conditional OUT");
@@ -277,7 +282,7 @@ public class Parser {
         	ex_list.add(e2);
     	}
     	//
-    	
+    	color_box_color = token.color();
     	//bodyµé
     	while(token.color()!=0) {
 //        	System.out.print("¶ì¿ä¿Ë : ");
@@ -396,7 +401,7 @@ public class Parser {
     		Com_String += token.value() + " ";
     		token = lexer.next();
     	}
-    	
+    	match(TokenType.Null);
     	return new Coms(Com_String);
     }
         
@@ -717,6 +722,7 @@ public class Parser {
         Parser parser  = new Parser(new Lexer("test.xlsx"));
         Program prog = parser.program();
         TypeChecker T = new TypeChecker(prog);
+        T.ValidationStart();
         prog.display();          
     } 
 }
