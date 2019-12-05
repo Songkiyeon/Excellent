@@ -351,7 +351,7 @@ public class Parser {
          Com_String += token.value() + " ";
          token = lexer.next();
       }
-
+      match(TokenType.Null);
       return new Coms(Com_String);
    }
 
