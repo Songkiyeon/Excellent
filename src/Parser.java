@@ -475,7 +475,7 @@ public class Parser {
          value = new FloatValue(Float.parseFloat(token.value()));
          token = lexer.next();
       } else if (token.type().equals(TokenType.CharLiteral)) {
-         value = new CharValue(token.value().charAt(0));
+         value = new CharValue(token.value());
          token = lexer.next();
       } else if (token.type().equals(TokenType.True)) {
          value = new BoolValue(true);

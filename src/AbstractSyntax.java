@@ -352,9 +352,9 @@ abstract class Value extends Expression {
       return false;
    }
 
-   char charValue() {
+   String charValue() {
       assert false : "should never reach here";
-      return ' ';
+      return " ";
    }
 
    float floatValue() {
@@ -450,19 +450,19 @@ class BoolValue extends Value {
 }
 
 class CharValue extends Value {
-   private char value = ' ';
+   private String value = "";
 
    CharValue() {
       type = Type.CHAR;
    }
 
-   CharValue(char v) {
+   CharValue(String v) {
       this();
       value = v;
       undef = false;
    }
 
-   char charValue() {
+   String charValue() {
       assert !undef : "reference to undefined char value";
       return value;
    }
