@@ -1,5 +1,6 @@
 import java.io.FileInputStream;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -67,7 +68,8 @@ public class termPcompiler {
                            value = cell.getCellFormula();
                            break;
                         case XSSFCell.CELL_TYPE_NUMERIC:
-                           value = cell.getNumericCellValue() + "";
+                        	cell.setCellType(HSSFCell.CELL_TYPE_STRING );
+                        	value = cell.getStringCellValue();
                            break;
                         case XSSFCell.CELL_TYPE_STRING:
                            value = cell.getStringCellValue() + "";
@@ -126,6 +128,6 @@ public class termPcompiler {
    }
 
    public static void main(String[] args) {
-      File f = extract_excel("inputCode.xlsx");
+      File f = extract_excel("test.xlsx");
    }
 }

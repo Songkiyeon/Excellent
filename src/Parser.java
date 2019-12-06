@@ -520,7 +520,8 @@ public class Parser {
    }
 
    private boolean isEqualityOp() {
-      return token.type().equals(TokenType.Equals) || token.type().equals(TokenType.NotEqual);
+      return token.type().equals(TokenType.Equals) || token.type().equals(TokenType.NotEqual)
+    		  || token.type().equals(TokenType.TypeEquals) || token.type().equals(TokenType.FullEquals);
    }
 
    private boolean isRelationalOp() {
@@ -616,7 +617,7 @@ public class Parser {
       Program prog = parser.program();
       TypeChecker TC = new TypeChecker(prog);
       if(TC.ValidationStart()) {
-          prog.display();      
+          prog.display(0);      
       }
    }
 }

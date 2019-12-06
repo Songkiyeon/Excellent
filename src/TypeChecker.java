@@ -298,7 +298,7 @@ public class TypeChecker {
 
 			} else if (((Binary) e).op.RelationalOp()) {
 
-				if (((Binary) e).op.val == "==" || ((Binary) e).op.val == "!=") {// 이거 처리해야함?
+				if (((Binary) e).op.val == "==" || ((Binary) e).op.val == "<>") {// 이거 처리해야함?
 					if (type.equals(""))
 						return true;
 					if (type.equals("bool")) {
