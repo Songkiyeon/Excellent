@@ -19,7 +19,7 @@ class Program {
 	void display(int k) {
 		try {
 			file = new File(fileName);
-			fw = new FileWriter(file, true);
+			fw = new FileWriter(file, false);
 			
 			for (int tab = 0; tab < k; tab++) {
 				stringExport("\t");
