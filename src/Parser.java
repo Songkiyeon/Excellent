@@ -5,7 +5,8 @@ public class Parser {
    Lexer lexer;
    int color_box_color;
    int color_box_row;
-
+   int EndColor = -1;
+   
    public Parser(Lexer ts) {
       lexer = ts;
       token = lexer.next();
@@ -36,11 +37,21 @@ public class Parser {
       while (isColor()) {
          declaration(Ds);
       }
+      findEndColor(Ds);
 
       Block b = statements(false);
       Program pro = new Program(Ds, b);
 
       return pro;
+   }
+   private void findEndColor(Declarations ds) {
+	   for(int i=0;i<ds.size();i++) {
+		   if(ds.get(i).getClass().getName().equals("DefineColor")) {
+			   if(((DefineColor)(ds.get(i))).Type.equals("end")) {
+				   EndColor=((DefineColor)(ds.get(i))).color;
+			   }
+		   }
+	   }
    }
 
    private Declarations declarations() {
@@ -347,7 +358,7 @@ public class Parser {
 
       Com_row = token.row();
       match(TokenType.Coms);
-      while (token.value() != "null") {
+      while (token.color() != EndColor) {
          Com_String += token.value() + " ";
          token = lexer.next();
       }
