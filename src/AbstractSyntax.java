@@ -1,6 +1,11 @@
+import java.io.File;
+import java.io.FileWriter;
 import java.util.*;
 
 class Program {
+	static String fileName = "C:\\Eclipse\\excellent.txt";
+	static File file;
+	static FileWriter fw;
 	Declarations decpart;
 	Block body;
 	int Layer;
@@ -10,22 +15,39 @@ class Program {
 		decpart = d;
 		body = b;
 	}
-
+// Program.stringExport("");
 	void display(int k) {
-		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+		try {
+			file = new File(fileName);
+			fw = new FileWriter(file, true);
+			
+			for (int tab = 0; tab < k; tab++) {
+				stringExport("\t");
+			}
+			stringExport("function excellent() {\n");
+			decpart.display(++k);
+			body.display(k);
+			stringExport("}\n");
+			System.out.println("Export Completed!");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		System.out.println("function excellent() {");
-		decpart.display(++k);
-		body.display(k);
-		System.out.println("}");
+	}
+	
+	static void stringExport(String cach) {
+		try {
+			fw.write(cach);
+			fw.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
 
 class Declarations extends ArrayList<declare> {
 	public void display(int k) {
 		for (int tab = 0; tab < k - 1; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
 		for (int i = 0; i < this.size(); i++)
 			this.get(i).display(k);
@@ -54,12 +76,12 @@ class Declaration extends declare {
 
 	public void display(int k) {
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
 		if (value.equals("null"))
-			System.out.println("var " + name + ";");
+			Program.stringExport("var " + name + ";\n");
 		else
-			System.out.println("var " + name + " = " + value + ";");
+			Program.stringExport("var " + name + " = " + value + ";\n");
 	}
 }
 
@@ -101,19 +123,19 @@ class Array extends declare {
 // 잠시 대기
 	public void display(int k) {
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-//		System.out.println(color + " " + name + " = " + matrix);
+//		Program.stringExport(color + " " + name + " = " + matrix);
 		if (isDeclare(matrix)) {
-			System.out.print("var " + name + " = [");
+			Program.stringExport("var " + name + " = [");
 			for (int rows = 0; rows < y; rows++) {
 				if (rows != 0 && rows != y)
-					System.out.print(", ");
-				System.out.print("[ ]");
+					Program.stringExport(", ");
+				Program.stringExport("[ ]");
 			}
-			System.out.println("];");
+			Program.stringExport("];\n");
 		} else {
-			System.out.println("var " + name + " = " + matrix + ";");
+			Program.stringExport("var " + name + " = " + matrix + ";\n");
 		}
 	}
 
@@ -170,7 +192,7 @@ class Block extends Statement {
 	public void display2(int k) {
 		for (int i = 0; i < members.size(); i++) {
 			for (int tab = 0; tab < k; tab++) {
-				System.out.print("\t");
+				Program.stringExport("\t");
 			}
 			members.get(i).display(k);
 		}
@@ -188,12 +210,12 @@ class Assignment extends Statement {
 
 	public void display(int k) {
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
 		target.display(k);
-		System.out.print(" = ");
+		Program.stringExport(" = ");
 		source.display(k);
-		System.out.println(";");
+		Program.stringExport(";\n");
 	}
 }
 
@@ -206,30 +228,30 @@ class Conditional extends Statement {
 	}
 
 	public void display(int k) {
-		System.out.println();
+		Program.stringExport("\n");
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.print("if (");
+		Program.stringExport("if (");
 		Exprs.get(0).display(k);
-		System.out.println(") {");
+		Program.stringExport(") {\n");
 		Statements.get(0).display2(k);
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.println("}");
+		Program.stringExport("}\n");
 		for (int i = 1; i < Exprs.size(); i++) {
 			for (int tab = 0; tab < k; tab++) {
-				System.out.print("\t");
+				Program.stringExport("\t");
 			}
-			System.out.print("else if (");
+			Program.stringExport("else if (");
 			Exprs.get(i).display(k);
-			System.out.println(") {");
+			Program.stringExport(") {\n");
 			Statements.get(i).display2(k);
 			for (int tab = 0; tab < k; tab++) {
-				System.out.print("\t");
+				Program.stringExport("\t");
 			}
-			System.out.println("}");
+			Program.stringExport("}\n");
 		}
 	}
 }
@@ -244,45 +266,45 @@ class Loop extends Statement {
 	}
 
 	public void display(int k) {
-		System.out.println();
+		Program.stringExport("\n");
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
 		k++;
-		System.out.println("while(true){ ");
+		Program.stringExport("while(true){\n");
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.print("if (");
+		Program.stringExport("if (");
 		Exprs.get(0).display(k);
-		System.out.println(") { ");
+		Program.stringExport(") {\n");
 		Statements.get(0).display2(k - 1);
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.println("}");
+		Program.stringExport("}\n");
 		for (int i = 1; i < Exprs.size(); i++) {
 			for (int tab = 0; tab < k; tab++) {
-				System.out.print("\t");
+				Program.stringExport("\t");
 			}
-			System.out.print("else if (");
+			Program.stringExport("else if (");
 			Exprs.get(i).display(k);
-			System.out.println(") {");
+			Program.stringExport(") {\n");
 			Statements.get(i).display2(k - 1);
 			for (int tab = 0; tab < k; tab++) {
-				System.out.print("\t");
+				Program.stringExport("\t");
 			}
-			System.out.println("}");
+			Program.stringExport("}\n");
 		}
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
 		k--;
-		System.out.println("else break;");
+		Program.stringExport("else break;\n");
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.println("}");
+		Program.stringExport("}\n");
 	}
 }
 
@@ -295,18 +317,18 @@ class Prt extends Statement {
 
 	public void display(int k) {
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.print("alert(");
+		Program.stringExport("alert(");
 		for (int i = 0; i < list.size(); i++) {
 			if (i != 0)
-				System.out.print(" + ");
+				Program.stringExport(" + ");
 			if (list.get(i).equals("blk"))
-				System.out.print("\" \"");
+				Program.stringExport("\" \"");
 			else
-				System.out.print(list.get(i));
+				Program.stringExport(list.get(i));
 		}
-		System.out.println(");");
+		Program.stringExport(");\n");
 	}
 }
 
@@ -321,17 +343,17 @@ class Scn extends Statement {
 
 	public void display(int k) {
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.println(value + " = prompt(" + pri + ");");
+		Program.stringExport(value + " = prompt(" + pri + ");\n");
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.println(value + " = " + value + ".split(\" \");");
+		Program.stringExport(value + " = " + value + ".split(\" \");\n");
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.println(value + " = " + value + "[0];");
+		Program.stringExport(value + " = " + value + "[0];\n");
 	}
 }
 
@@ -346,19 +368,19 @@ class Scns extends Statement {
 
 	public void display(int k) {
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
 		int len = values.size();
-		System.out.println(values.get(len - 1) + " = prompt(" + pri + ");");
+		Program.stringExport(values.get(len - 1) + " = prompt(" + pri + ");\n");
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.println(values.get(len - 1) + " = " + values.get(len - 1) + ".split(\" \");");
+		Program.stringExport(values.get(len - 1) + " = " + values.get(len - 1) + ".split(\" \");\n");
 		for (int i = 0; i < len; i++) {
 			for (int tab = 0; tab < k; tab++) {
-				System.out.print("\t");
+				Program.stringExport("\t");
 			}
-			System.out.println(values.get(i) + " = " + values.get(len - 1) + "[" + i + "];");
+			Program.stringExport(values.get(i) + " = " + values.get(len - 1) + "[" + i + "];\n");
 		}
 	}
 }
@@ -379,26 +401,26 @@ class Def extends Statement {
 	}
 
 	public void display(int k) {
-		System.out.println();
+		Program.stringExport("\n");
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.print("var " + name + "(");
-		System.out.print(Parameter_name.get(0));
+		Program.stringExport("var " + name + "(");
+		Program.stringExport(Parameter_name.get(0));
 		for (int i = 1; i < Parameter_name.size(); i++)
-			System.out.print(", " + Parameter_name.get(i));
-		System.out.println(") {");
+			Program.stringExport(", " + Parameter_name.get(i));
+		Program.stringExport(") {\n");
 		b.display2(k);
 		for (int tab = 0; tab < k + 1; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.print("return ");
+		Program.stringExport("return ");
 		ret.display(k);
-		System.out.println(";");
+		Program.stringExport(";\n");
 		for (int tab = 0; tab < k; tab++) {
-			System.out.print("\t");
+			Program.stringExport("\t");
 		}
-		System.out.println("}");
+		Program.stringExport("}\n");
 	}
 }
 
@@ -444,7 +466,7 @@ class Variable extends Expression {
 	}
 
 	public void display(int k) {
-		System.out.print(id);
+		Program.stringExport(id);
 	}
 }
 
@@ -473,7 +495,7 @@ class ArrayValue extends Expression {
 	}
 
 	public void display(int k) {
-		System.out.print(id + "[" + row + "][" + col + "]");
+		Program.stringExport(id + "[" + row + "][" + col + "]");
 	}
 }
 
@@ -522,7 +544,7 @@ abstract class Value extends Expression {
 	}
 
 	public void display(int k) {
-		System.out.println(type);
+		Program.stringExport(type + "");
 	}
 }
 
@@ -551,7 +573,7 @@ class IntValue extends Value {
 	}
 
 	public void display(int k) {
-		System.out.print(value);
+		Program.stringExport(value + "");
 	}
 
 }
@@ -586,7 +608,7 @@ class BoolValue extends Value {
 	}
 
 	public void display(int k) {
-		System.out.print(value);
+		Program.stringExport(value + "");
 	}
 }
 
@@ -615,7 +637,7 @@ class CharValue extends Value {
 	}
 
 	public void display(int k) {
-		System.out.print(value);
+		Program.stringExport(value);
 	}
 }
 
@@ -644,7 +666,7 @@ class FloatValue extends Value {
 	}
 
 	public void display(int k) {
-		System.out.print(value);
+		Program.stringExport(value + "");
 	}
 }
 
@@ -660,19 +682,19 @@ class Binary extends Expression {
 
 	public void display(int k) {
 		if (op.val.equals(op.TE)) {
-			System.out.print("typeof(");
+			Program.stringExport("typeof(");
 			term1.display(k);
-			System.out.print(") ==");
-			System.out.print(" typeof(");
+			Program.stringExport(") ==");
+			Program.stringExport(" typeof(");
 			term2.display(k);
-			System.out.print(")");
+			Program.stringExport(")");
 		} else {
 			term1.display(k);
 			op.display(k);
 			term2.display(k);
 		}
 
-//      System.out.println();
+//      Program.stringExport();
 	}
 }
 
@@ -774,7 +796,7 @@ class Operator {
 	}
 
 	public void display(int k) {
-		System.out.print(" " + val + " ");
+		Program.stringExport(" " + val + " ");
 	}
 
 	public boolean equals(Object obj) {
