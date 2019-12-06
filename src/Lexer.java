@@ -190,7 +190,7 @@ public class Lexer {
     }
 
     static public void main ( String[] argv ) {
-        Lexer lexer = new Lexer("test.xlsx");
+        Lexer lexer = new Lexer(argv[0]);
         Token tok = lexer.next( );
         while (tok != Token.eofTok) {
            tok.print();

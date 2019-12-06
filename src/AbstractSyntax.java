@@ -166,6 +166,15 @@ class Block extends Statement {
 		for (int i = 0; i < members.size(); i++)
 			members.get(i).display(k);
 	}
+	
+	public void display2(int k) {
+		for (int i = 0; i < members.size(); i++) {
+			for (int tab = 0; tab < k; tab++) {
+				System.out.print("\t");
+			}
+			members.get(i).display(k);
+		}
+	}
 }
 
 class Assignment extends Statement {
@@ -197,13 +206,14 @@ class Conditional extends Statement {
 	}
 
 	public void display(int k) {
+		System.out.println();
 		for (int tab = 0; tab < k; tab++) {
 			System.out.print("\t");
 		}
 		System.out.print("if (");
 		Exprs.get(0).display(k);
 		System.out.println(") {");
-		Statements.get(0).display(k);
+		Statements.get(0).display2(k);
 		for (int tab = 0; tab < k; tab++) {
 			System.out.print("\t");
 		}
@@ -215,7 +225,7 @@ class Conditional extends Statement {
 			System.out.print("else if (");
 			Exprs.get(i).display(k);
 			System.out.println(") {");
-			Statements.get(i).display(k);
+			Statements.get(i).display2(k);
 			for (int tab = 0; tab < k; tab++) {
 				System.out.print("\t");
 			}
@@ -234,18 +244,19 @@ class Loop extends Statement {
 	}
 
 	public void display(int k) {
+		System.out.println();
 		for (int tab = 0; tab < k; tab++) {
 			System.out.print("\t");
 		}
 		k++;
-		System.out.println("while(true){");
+		System.out.println("while(true){ ");
 		for (int tab = 0; tab < k; tab++) {
 			System.out.print("\t");
 		}
 		System.out.print("if (");
 		Exprs.get(0).display(k);
-		System.out.println(") {");
-		Statements.get(0).display(k);
+		System.out.println(") { ");
+		Statements.get(0).display2(k - 1);
 		for (int tab = 0; tab < k; tab++) {
 			System.out.print("\t");
 		}
@@ -257,7 +268,7 @@ class Loop extends Statement {
 			System.out.print("else if (");
 			Exprs.get(i).display(k);
 			System.out.println(") {");
-			Statements.get(i).display(k);
+			Statements.get(i).display2(k - 1);
 			for (int tab = 0; tab < k; tab++) {
 				System.out.print("\t");
 			}
@@ -368,15 +379,16 @@ class Def extends Statement {
 	}
 
 	public void display(int k) {
+		System.out.println();
 		for (int tab = 0; tab < k; tab++) {
 			System.out.print("\t");
 		}
-		System.out.print("function " + name + "(");
+		System.out.print("var " + name + "(");
 		System.out.print(Parameter_name.get(0));
 		for (int i = 1; i < Parameter_name.size(); i++)
 			System.out.print(", " + Parameter_name.get(i));
 		System.out.println(") {");
-		b.display(k);
+		b.display2(k);
 		for (int tab = 0; tab < k + 1; tab++) {
 			System.out.print("\t");
 		}
@@ -647,7 +659,7 @@ class Binary extends Expression {
 	}
 
 	public void display(int k) {
-		if (op.val.equals("??")) {
+		if (op.val.equals(op.TE)) {
 			System.out.print("typeof(");
 			term1.display(k);
 			System.out.print(") ==");
