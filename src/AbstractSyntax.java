@@ -3,7 +3,7 @@ import java.io.FileWriter;
 import java.util.*;
 
 class Program {
-	static String fileName = "C:\\Eclipse\\excellent.txt";
+	static String fileName = "C:\\Eclipse\\excellent.js";
 	static File file;
 	static FileWriter fw;
 	Declarations decpart;
@@ -15,7 +15,7 @@ class Program {
 		decpart = d;
 		body = b;
 	}
-// Program.stringExport("");
+
 	void display(int k) {
 		try {
 			file = new File(fileName);
@@ -405,7 +405,7 @@ class Def extends Statement {
 		for (int tab = 0; tab < k; tab++) {
 			Program.stringExport("\t");
 		}
-		Program.stringExport("var " + name + "(");
+		Program.stringExport("function " + name + "(");
 		Program.stringExport(Parameter_name.get(0));
 		for (int i = 1; i < Parameter_name.size(); i++)
 			Program.stringExport(", " + Parameter_name.get(i));
