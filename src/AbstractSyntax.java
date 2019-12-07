@@ -499,6 +499,24 @@ class ArrayValue extends Expression {
 	}
 }
 
+class FuncValue extends Expression {
+	String name;
+	ArrayList<String> Parameter_name;
+
+	FuncValue(String n, ArrayList<String> s) {
+		this.name = n;
+		this.Parameter_name = s;
+	}
+
+	public void display(int k) {
+		Program.stringExport(name+"("+Parameter_name.get(0));
+		for(int i = 1;i<Parameter_name.size();i++) {
+			Program.stringExport(","+Parameter_name.get(i));
+		}
+		Program.stringExport(")");
+	}
+}
+
 abstract class Value extends Expression {
 	protected Type type;
 	protected boolean undef = true;

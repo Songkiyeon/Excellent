@@ -7,18 +7,19 @@ function excellent() {
 	var f;
 	var str;
 	var ans;
-	var e = [[3, 2], [4, 5]];
+	var e = [[3, 2], [5, 5]];
 	var d = 3;
-	var num = 3;
+	var e = 'b';
 	var flag = true;
-	asd = 'c';
-	c = e[1][2];
+	var s = "asd";
+	asd = 'a';
+	c = a[1][2];
 
 	if (flag && flag) {
 		c = 2 + a + b;
 	}
 
-	if (typeof(a) == typeof(1)) {
+	if (a >= 1) {
 		c = 2 + a + b;
 	}
 
@@ -26,10 +27,10 @@ function excellent() {
 		d = 1;
 	}
 
-	if (a === 1) {
+	if (a == 1) {
 		a = a + 1;
 	}
-	else if (a != 2) {
+	else if (a == 2) {
 		a = 1;
 	}
 
@@ -53,13 +54,13 @@ function excellent() {
 	str = prompt("I");
 	str = str.split(" ");
 	str = str[0];
-	a = prompt("I");
-	a = a.split(" ");
-	a = a[0];
-	b = a[1];
-	c = a[2];
-	asd = a[3];
-	a = a[4];
+	e = prompt("I");
+	e = e.split(" ");
+	a = e[0];
+	b = e[1];
+	c = e[2];
+	asd = e[3];
+	e = e[4];
 
 	function plus(a, b, g) {
 		ans = a + b;
@@ -70,7 +71,9 @@ function excellent() {
 	function root(a, b, c) {
 		ans = a + 1;
 		ans = a + 1;
-		ans = a + 5;
-		return 1;
+		ans = a + 1 + 2;
+		return ans;
 	}
+	a = plus(parser,fuck,you);
+	a = plus(please,Stop,meee);
 }

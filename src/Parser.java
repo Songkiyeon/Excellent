@@ -452,7 +452,20 @@ public class Parser {
             } else {
                e = new ArrayValue(id, -1, temp_col);
             }
-         } else {
+         } else if (isLeftParen()) {
+        	 match(TokenType.LeftParen);
+        	 ArrayList<String> Parameter = new ArrayList<String>();
+        	 String par = token.value(); Parameter.add(par);
+        	 token = lexer.next();
+        	 while(isIdentifier()) {
+        		 par = token.value(); Parameter.add(par);
+        		 token = lexer.next();
+        	 }
+        	 match(TokenType.RightParen);
+        	 e = new FuncValue(id,Parameter);
+         }
+ 
+         else {
             e = new Variable(id);
          }
 
@@ -576,6 +589,10 @@ public class Parser {
       return token.type().equals(TokenType.LeftBracket);
    }
 
+   private boolean isLeftParen() {
+	      return token.type().equals(TokenType.LeftParen);
+   }
+
    private boolean isPrt() {
       return token.type().equals(TokenType.Prt);
    }
@@ -615,9 +632,10 @@ public class Parser {
    public static void main(String args[]) {
       Parser parser = new Parser(new Lexer("test.xlsx"));
       Program prog = parser.program();
-      TypeChecker TC = new TypeChecker(prog);
-      if(TC.ValidationStart()) {
-          prog.display(0);      
-      }
+      prog.display(0);
+//      TypeChecker TC = new TypeChecker(prog);
+//      if(TC.ValidationStart()) {
+//          prog.display(0);
+//      }
    }
 }
