@@ -3,7 +3,7 @@ import java.io.FileWriter;
 import java.util.*;
 
 class Program {
-	static String fileName = "C:\\Eclipse\\excellent.js";
+	static String fileName = "excellent.js";
 	static File file;
 	static FileWriter fw;
 	Declarations decpart;
