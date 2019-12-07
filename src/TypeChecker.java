@@ -83,6 +83,9 @@ public class TypeChecker {
 					valueTable.add(new valueTuple(((Declaration) (prog.decpart.get(i))).color,
 							((Declaration) (prog.decpart.get(i))).name, colorTable));
 				}
+				if(!check_right_type(((Declaration)(prog.decpart.get(i))).value,((Declaration)(prog.decpart.get(i))).color,colorTable)) {
+					return false;
+				} 
 			}
 			if (prog.decpart.get(i).getClass().getName() == "Array") {
 				for (int p = 0; p < colorTable.size(); p++) {
@@ -98,6 +101,15 @@ public class TypeChecker {
 					valueTable.add(new valueTuple(((Array) (prog.decpart.get(i))).color,
 							((Array) (prog.decpart.get(i))).name, colorTable));
 				}
+				for(int u=0;u<((Array) (prog.decpart.get(i))).matrix.size();u++) {
+					for(int s=0;s<((Array) (prog.decpart.get(i))).matrix.get(u).size();s++) {
+						if(!check_right_type(((Array) (prog.decpart.get(i))).matrix.get(u).get(s),((Array) (prog.decpart.get(i))).color,colorTable)) {
+							return false;
+						}
+					}
+					
+				}
+
 			}
 		}
 		return true;
@@ -478,4 +490,66 @@ public class TypeChecker {
 		return true;
 	}
 
+	public boolean check_right_type(String s, int color,ArrayList<colorTuple> colorTable) {
+		if(s.equals("null")) return true;
+		String type = "";
+		for(int i=0;i<colorTable.size();i++) {
+			if (colorTable.get(i).color == color) {
+				type = colorTable.get(i).Type;
+				break;
+			}
+		}
+		if(s.equals("true")||s.equals("false")) {
+			if(type.equals("bool")) return true;
+			else {
+				errorMessage = "Type is Not " + type + " => " + s.toString();
+				return false;
+			}
+		}
+		if(s.charAt(0) == '"') {
+			if(type.equals("string")) return true;
+			else {
+				errorMessage = "Type is Not " + type + " => " + s.toString();
+				return false;
+			}
+		}
+		if(s.charAt(0) == '\'') {
+			if(type.equals("char")) return true;
+			else {
+				errorMessage = "Type is Not " + type + " => " + s.toString();
+				return false;
+			}
+		}
+		if(s.charAt(0) == '0' ||
+			s.charAt(0) == '1' ||
+			s.charAt(0) == '2' ||
+			s.charAt(0) == '3' ||
+			s.charAt(0) == '4' ||
+			s.charAt(0) == '5' ||
+			s.charAt(0) == '6' ||
+			s.charAt(0) == '7' ||
+			s.charAt(0) == '8' ||
+			s.charAt(0) == '9') {
+
+			if(s.indexOf(".")>0) {
+				if(type.equals("float")) return true;
+				else {
+					errorMessage = "Type is Not " + type + " => " + s.toString();
+					return false;
+				}
+			} else {
+				if(type.equals("int")) return true;
+				else {
+					errorMessage = "Type is Not " + type + " => " + s.toString();
+					return false;
+				}
+				
+			}
+		}else {
+			errorMessage = "Type is Not " + type + " => " + s.toString();
+			return false;
+		}
+	}
+	
+	
 }
