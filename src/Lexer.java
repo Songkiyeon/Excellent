@@ -120,6 +120,7 @@ public class Lexer {
             case '!':    ch = nextChar(); return makeTok(Token.notTok, tokRow, tokCol, tokColor);
             case '<': return makeTok(chkOpt2('=','>', Token.ltTok, Token.lteqTok,Token.noteqTok), tokRow, tokCol, tokColor);
             case '>': return makeTok(chkOpt('=', Token.gtTok, Token.gteqTok), tokRow, tokCol, tokColor);
+            case ',': ch = nextChar(); return makeTok(Token.commaTok, tokRow, tokCol, tokColor);
             default:  error("Illegal character " + ch); 
             } // switch
         } while (true);

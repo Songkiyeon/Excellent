@@ -439,7 +439,7 @@ public class Parser {
       Expression e = null;
       if (token.type().equals(TokenType.Identifier)) {
          String id = match(TokenType.Identifier);
-         if (isLeftBracket()) {
+         if (isLeftBracket()) { /* List Value */
             match(TokenType.LeftBracket);
             int temp_col = Integer.parseInt(token.value());
             token = lexer.next();
@@ -452,23 +452,19 @@ public class Parser {
             } else {
                e = new ArrayValue(id, -1, temp_col);
             }
-         } else if (isLeftParen()) {
+         } else if (isLeftParen()) { /* Function Value */
         	 match(TokenType.LeftParen);
-        	 ArrayList<String> Parameter = new ArrayList<String>();
-        	 String par = token.value(); Parameter.add(par);
-        	 token = lexer.next();
-        	 while(isIdentifier()) {
-        		 par = token.value(); Parameter.add(par);
-        		 token = lexer.next();
+        	 ArrayList<Expression> Parameter = new ArrayList<Expression>();
+        	 Expression ex = expression();Parameter.add(ex);
+        	 while(isComma()) {
+        		 match(TokenType.Comma);
+        		 ex = expression(); Parameter.add(ex);
         	 }
         	 match(TokenType.RightParen);
         	 e = new FuncValue(id,Parameter);
-         }
- 
-         else {
+         } else { /* Identifier */
             e = new Variable(id);
          }
-
       } else if (isLiteral()) {
          e = literal();
       } else if (token.type().equals(TokenType.LeftParen)) {
@@ -518,6 +514,9 @@ public class Parser {
          return true;
       }
       return false;
+   }
+   private boolean isComma() {
+	   return token.type().equals(TokenType.Comma);
    }
 
    private boolean isAddOp() {

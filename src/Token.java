@@ -20,6 +20,8 @@ public class Token {
     public static final Token stringTok = new Token(TokenType.String, "string");
     public static final Token endTok = new Token(TokenType.End, "end");
     public static final Token nullTok = new Token(TokenType.Null, "null");
+    /* 2019-12-08+ */
+    public static final Token commaTok = new Token(TokenType.Comma, ",");
     
     public static final Token eofTok = new Token(TokenType.Eof, "<<EOF>>");
     public static final Token boolTok = new Token(TokenType.Bool, "bool");

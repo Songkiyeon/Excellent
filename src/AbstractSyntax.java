@@ -501,17 +501,19 @@ class ArrayValue extends Expression {
 
 class FuncValue extends Expression {
 	String name;
-	ArrayList<String> Parameter_name;
+	ArrayList<Expression> Parameter_name;
 
-	FuncValue(String n, ArrayList<String> s) {
+	FuncValue(String n, ArrayList<Expression> ex) {
 		this.name = n;
-		this.Parameter_name = s;
+		this.Parameter_name = ex;
 	}
 
 	public void display(int k) {
-		Program.stringExport(name+"("+Parameter_name.get(0));
+		Program.stringExport(name+"(");
+		Parameter_name.get(0).display(0);
 		for(int i = 1;i<Parameter_name.size();i++) {
-			Program.stringExport(","+Parameter_name.get(i));
+			Program.stringExport(",");
+			Parameter_name.get(i).display(0);
 		}
 		Program.stringExport(")");
 	}

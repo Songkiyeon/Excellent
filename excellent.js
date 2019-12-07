@@ -74,6 +74,5 @@ function excellent() {
 		ans = a + 1 + 2;
 		return ans;
 	}
-	a = plus(parser,fuck,you);
-	a = plus(please,Stop,meee);
+	a = plus(2 * a + 1,a + 25 * 3);
 }
