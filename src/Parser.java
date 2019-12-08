@@ -197,14 +197,25 @@ public class Parser {
    }
 
    private Assignment assignment() {
-
       Variable V = new Variable(token.value());
       token = lexer.next();
-
-      match(TokenType.Assign);
-
-      Expression e = expression();
-
+      Expression e;
+      if(isTwoOp()) {
+    	  if(token.type().equals(TokenType.TwoMinus)) { /* -- */
+    		  match(TokenType.TwoMinus);
+    		  Operator op = new Operator("-");
+    		  Expression e2 = primary();
+    		  e = new Binary(op, V, e2);
+    	  } else { /* ++ */
+    		  match(TokenType.TwoPlus);
+    		  Operator op = new Operator("+");
+    		  Expression e2 = primary();
+    		  e = new Binary(op, V, e2);    	  
+    	  }
+      } else {
+          match(TokenType.Assign);
+          e = expression();    	  
+      }
       Assignment as = new Assignment(V, e);
       return as;
    }
@@ -225,7 +236,6 @@ public class Parser {
          Expression e2 = expression();
          ex_list.add(e2);
       }
-      //
 
       // bodyµé
       color_box_color = token.color();
@@ -541,6 +551,10 @@ public class Parser {
             || token.type().equals(TokenType.Greater) || token.type().equals(TokenType.GreaterEqual);
    }
 
+   private boolean isTwoOp() {
+	   return token.type().equals(TokenType.TwoMinus) || token.type().equals(TokenType.TwoPlus);
+   }
+   
    private boolean isType() {
       return token.type().equals(TokenType.Int) || token.type().equals(TokenType.Bool)
             || token.type().equals(TokenType.Float) || token.type().equals(TokenType.Char)

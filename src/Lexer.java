@@ -107,7 +107,7 @@ public class Lexer {
          
             case eofCh: return Token.eofTok; // ¿¹¿Ü
             case '+': return makeTok(chkOpt('+', Token.plusTok, Token.twoplusTok), tokRow, tokCol, tokColor);
-            case '-': return makeTok(chkOpt('+', Token.minusTok, Token.twominusTok), tokRow, tokCol, tokColor);
+            case '-': return makeTok(chkOpt('-', Token.minusTok, Token.twominusTok), tokRow, tokCol, tokColor);
             case '*': ch = nextChar(); return makeTok(Token.multiplyTok, tokRow, tokCol, tokColor);
             case '(': ch = nextChar(); return makeTok(Token.leftParenTok, tokRow, tokCol, tokColor);
             case ')': ch = nextChar(); return makeTok(Token.rightParenTok, tokRow, tokCol, tokColor);

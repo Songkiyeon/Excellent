@@ -75,4 +75,7 @@ function excellent() {
 		return ans;
 	}
 	a = plus(2 * a + 1,a + 25 * 3);
+	a = a - 100;
+	b = b - 100;
+	a = a + 100;
 }
