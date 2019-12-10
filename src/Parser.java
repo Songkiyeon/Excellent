@@ -70,7 +70,7 @@ public class Parser {
          ArrayList<declare> AL = new ArrayList<declare>();
          int line;
          line = token.row();
-         while (token.value() != "null" && token.row() == line) {
+         while (token.row() == line) {
             if (isLeftBracket()) {
 
                // 수정되는 부분
@@ -113,7 +113,7 @@ public class Parser {
                token = lexer.next();
             }
          }
-         while (token.value() != "null" && token.row() == line + 1) {
+         while (token.row() == line + 1) {
             if ((AL.get(token.column())).getClass().getName() == "Array") {
                int normalrow = token.row();
                int normalcol = token.column();
@@ -121,9 +121,14 @@ public class Parser {
                while (token.type() != TokenType.Null) {
                   va.addNode(token.row() - normalrow, token.column() - normalcol, token.value());
                   token = lexer.next();
+                  if(va.x<token.column() - normalcol) {
+                	  break;
+                  } else if(va.y<token.row() - normalrow) {
+                	  break;
+                  }
                }
 
-               token = lexer.next();
+//               token = lexer.next();
             } else {
                ((Declaration) AL.get(token.column())).setValue(token.value());
                token = lexer.next();
@@ -136,6 +141,7 @@ public class Parser {
       if (token.value() == "null") {
          token = lexer.next();
       }
+//      System.out.println("out");
    }
 
    private Type type() {
@@ -329,23 +335,34 @@ public class Parser {
       ArrayList<String> ps = new ArrayList<String>();
       Block b;
       Expression re;
+      int row = token.row();
 
       // name
       name = token.value();
       token = lexer.next();
 
       // parameters
-      while (token.color() != 0) {
+      while (token.row() == row) {
          pt.add(token.color());
          ps.add(token.value());
          token = lexer.next();
       }
-
+//      while (token.color() != 0) {
+//         pt.add(token.color());
+//         ps.add(token.value());
+//         token = lexer.next();
+//      }
+      //declaration
+      Declarations Ds = declarations();
+      while (isColor()) {
+         declaration(Ds);
+      }
+      //body
       b = statements(false);
       match(TokenType.Ret);
       re = expression();
 
-      return new Def(name, pt, ps, b, re);
+      return new Def(name, pt, ps, Ds, b, re);
    }
 
    private Com comStatement() {
@@ -645,10 +662,10 @@ public class Parser {
    public static void main(String args[]) {
       Parser parser = new Parser(new Lexer("test.xlsx"));
       Program prog = parser.program();
-      prog.display(0);
-//      TypeChecker TC = new TypeChecker(prog);
-//      if(TC.ValidationStart()) {
-//          prog.display(0);
-//      }
+//      prog.display(0);
+      TypeChecker TC = new TypeChecker(prog);
+      if(TC.ValidationStart()) {
+          prog.display(0);
+      }
    }
 }

@@ -214,9 +214,29 @@ public class TypeChecker {
 							colorTable));
 				}
 			}
+			for (int i=0; i<((Def)s).Ds.size();i++) {
+				if(((Def)s).Ds.get(i).getClass().getName().equals("Declaration")){					
+					if(!check_declared_color(((Declaration)((Def)s).Ds.get(i)).color)) {
+						errorMessage = "Not declared color => " + ((Declaration)((Def)s).Ds.get(i)).name;	
+						return false;
+					} else {
+						localTempTable.add(new valueTuple(((Declaration)((Def)s).Ds.get(i)).color,((Declaration)((Def)s).Ds.get(i)).name,colorTable));
+					}
+				}
+				if(((Def)s).Ds.get(i).getClass().getName().equals("Array")){					
+					if(!check_declared_color(((Array)((Def)s).Ds.get(i)).color)) {
+						errorMessage = "Not declared color => " + ((Array)((Def)s).Ds.get(i)).name;	
+						return false;
+					} else {
+						localTempTable.add(new valueTuple(((Array)((Def)s).Ds.get(i)).color,((Array)((Def)s).Ds.get(i)).name,colorTable));
+					}
+				}
+			}
+			
 			for (int i = 0; i < valueTable.size(); i++) {
 				localValueTable.add(valueTable.get(i));
 			}
+			
 			for (int i = 0; i < localTempTable.size(); i++) {
 				boolean flag = false;
 
@@ -480,8 +500,11 @@ public class TypeChecker {
 				errorMessage = "Incorrect StringValue => " + e;
 				return false;
 			}
+		} else if(e.getClass().getName().equals("FuncValue")) {
+			return true;
 		} else {
 			System.out.println("else?");
+			System.out.println(e);
 			return false;
 		}
 	}

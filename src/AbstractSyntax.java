@@ -388,14 +388,16 @@ class Scns extends Statement {
 class Def extends Statement {
 	String name;
 	Block b;
+	Declarations Ds;
 	ArrayList<Integer> Parameter_type;
 	ArrayList<String> Parameter_name;
 	Expression ret;
 
-	Def(String n, ArrayList<Integer> t, ArrayList<String> s, Block b, Expression r) {
+	Def(String n, ArrayList<Integer> t, ArrayList<String> s, Declarations Ds, Block b, Expression r) {
 		this.name = n;
 		this.Parameter_type = t;
 		this.Parameter_name = s;
+		this.Ds = Ds;
 		this.b = b;
 		this.ret = r;
 	}
@@ -410,6 +412,8 @@ class Def extends Statement {
 		for (int i = 1; i < Parameter_name.size(); i++)
 			Program.stringExport(", " + Parameter_name.get(i));
 		Program.stringExport(") {\n");
+		Program.stringExport("\t");
+		Ds.display(k);
 		b.display2(k);
 		for (int tab = 0; tab < k + 1; tab++) {
 			Program.stringExport("\t");

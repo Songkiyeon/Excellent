@@ -6,8 +6,7 @@ function excellent() {
 	var fl = [[ ], [ ]];
 	var f;
 	var str;
-	var ans;
-	var e = [[3, 2], [5, 5]];
+	var e = [[3, 1], [5, 5]];
 	var d = 3;
 	var e = 'b';
 	var flag = true;
@@ -63,13 +62,14 @@ function excellent() {
 	e = e[4];
 
 	function plus(a, b, g) {
+		var ans;
 		ans = a + b;
 		ans = a + b + c + d;
 		return 1;
 	}
 
 	function root(a, b, c) {
-		ans = a + 1;
+		var ans;
 		ans = a + 1;
 		ans = a + 1 + 2;
 		return ans;
