@@ -222,9 +222,11 @@ class Assignment extends Statement {
 class Conditional extends Statement {
 	ArrayList<Expression> Exprs;
 	ArrayList<Block> Statements;
-	Conditional(ArrayList<Expression> E, ArrayList<Block> S) {
+	ArrayList<Expression> Ret;
+	Conditional(ArrayList<Expression> E, ArrayList<Block> S, ArrayList<Expression> R) {
 		Exprs = E;
 		Statements = S;
+		Ret = R;
 	}
 
 	public void display(int k) {
@@ -239,6 +241,17 @@ class Conditional extends Statement {
 		for (int tab = 0; tab < k; tab++) {
 			Program.stringExport("\t");
 		}
+		if(Ret.get(0)!=null) {
+			Program.stringExport("\t");
+			Program.stringExport("return ");			
+			Ret.get(0).display(k);
+			Program.stringExport(";");			
+			Program.stringExport("\n");			
+		}
+		for (int tab = 0; tab < k; tab++) {
+			Program.stringExport("\t");
+		}
+		
 		Program.stringExport("}\n");
 		for (int i = 1; i < Exprs.size(); i++) {
 			for (int tab = 0; tab < k; tab++) {
@@ -251,6 +264,21 @@ class Conditional extends Statement {
 			for (int tab = 0; tab < k; tab++) {
 				Program.stringExport("\t");
 			}
+
+			if(Ret.get(i)!=null) {
+				Program.stringExport("\t");
+				Program.stringExport("return ");			
+				Ret.get(i).display(k);
+				Program.stringExport(";");			
+				Program.stringExport("\n");			
+			}
+			for (int tab = 0; tab < k; tab++) {
+				Program.stringExport("\t");
+			}
+			
+			
+			
+			
 			Program.stringExport("}\n");
 		}
 	}
@@ -259,10 +287,12 @@ class Conditional extends Statement {
 class Loop extends Statement {
 	ArrayList<Expression> Exprs;
 	ArrayList<Block> Statements;
+	ArrayList<Expression> Ret;
 
-	Loop(ArrayList<Expression> E, ArrayList<Block> S) {
+	Loop(ArrayList<Expression> E, ArrayList<Block> S, ArrayList<Expression> R) {
 		Exprs = E;
 		Statements = S;
+		Ret = R;
 	}
 
 	public void display(int k) {
@@ -282,6 +312,17 @@ class Loop extends Statement {
 		for (int tab = 0; tab < k; tab++) {
 			Program.stringExport("\t");
 		}
+		if(Ret.get(0)!=null) {
+			Program.stringExport("\t");
+			Program.stringExport("return ");			
+			Ret.get(0).display(k);
+			Program.stringExport(";");			
+			Program.stringExport("\n");			
+		}
+		for (int tab = 0; tab < k; tab++) {
+			Program.stringExport("\t");
+		}
+
 		Program.stringExport("}\n");
 		for (int i = 1; i < Exprs.size(); i++) {
 			for (int tab = 0; tab < k; tab++) {
@@ -291,6 +332,16 @@ class Loop extends Statement {
 			Exprs.get(i).display(k);
 			Program.stringExport(") {\n");
 			Statements.get(i).display2(k - 1);
+			for (int tab = 0; tab < k; tab++) {
+				Program.stringExport("\t");
+			}
+			if(Ret.get(i)!=null) {
+				Program.stringExport("\t");
+				Program.stringExport("return ");			
+				Ret.get(i).display(k);
+				Program.stringExport(";");			
+				Program.stringExport("\n");			
+			}
 			for (int tab = 0; tab < k; tab++) {
 				Program.stringExport("\t");
 			}

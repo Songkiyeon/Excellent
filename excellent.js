@@ -16,37 +16,37 @@ function excellent() {
 
 	if (flag && flag) {
 		c = 2 + a + b;
-	}
+		}
 
 	if (a >= 1) {
 		c = 2 + a + b;
-	}
+		}
 
 	if (true) {
 		d = 1;
-	}
+		}
 
 	if (a == 1) {
 		a = a + 1;
-	}
+		}
 	else if (a == 2) {
 		a = 1;
-	}
+		}
 
 	while(true){
 		if (b > 2) {
 		b = b - 1;
-		}
+				}
 		else break;
 	}
 
 	while(true){
 		if (b > 3) {
 		b = b - 1;
-		}
+				}
 		else if (b > 10) {
 		b = b - 10 * 10 + b * 4 / 2 + 1 * 3;
-		}
+				}
 		else break;
 	}
 	alert("A" + a + " " + b);
@@ -73,10 +73,26 @@ function excellent() {
 		ans = a + 1;
 	
 	if (true) {
+		return 1;
+	}
+	else if (true) {
 		a = 1;
+		return a;
+	}
+	
+	while(true){
+		if (true) {
+			return 1;
+		}
+		else if (true) {
+			return 1;
+		}
+		else break;
 	}
 		ans = a + 1 + 2;
 		return ans + root(a,b,c);
 	}
 	a = plus(2 * a + 1,a + 25 * 3);
+	a = a - 100;
+	b = b - 100;
 }

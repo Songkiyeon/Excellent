@@ -231,6 +231,10 @@ public class Parser {
       ArrayList<Integer> expr_color = new ArrayList<Integer>(); // color list
       ArrayList<Expression> ex_list = new ArrayList<Expression>(); // 조건 리스트
       ArrayList<Block> bl_list = new ArrayList<Block>(); // 실행 리스트
+
+      Expression ret = null;
+      ArrayList<Expression> ret_list = new ArrayList<Expression>(); // 리턴 리스트
+      
       // 조건문 탐색
       expr_color.add(token.color());
 
@@ -246,10 +250,20 @@ public class Parser {
       // body들
       color_box_color = token.color();
       while(token.color() !=0) {
-              Block b = statements(true);
+              Block b = statements(true);              
               bl_list.add(b);
-         }
-      return new Conditional(ex_list, bl_list);
+              if(isReturn()) {
+            	  match(TokenType.Ret);
+            	  ret=expression();
+            	  color_box_color = token.color();
+              } else {
+            	  ret = null;
+              }
+              ret_list.add(ret);
+//              System.out.println(token.color());
+//              System.out.println(token.value());
+      }
+      return new Conditional(ex_list, bl_list,ret_list);
    }
 
    private Loop whileStatement() {
@@ -257,6 +271,9 @@ public class Parser {
       ArrayList<Integer> expr_color = new ArrayList<Integer>(); // color list
       ArrayList<Expression> ex_list = new ArrayList<Expression>(); // 조건 리스트
       ArrayList<Block> bl_list = new ArrayList<Block>(); // 실행 리스트
+      Expression ret = null;
+      ArrayList<Expression> ret_list = new ArrayList<Expression>(); // 리턴 리스트      
+      
       // 조건문 탐색
       expr_color.add(token.color());
 
@@ -275,8 +292,16 @@ public class Parser {
       while (token.color() != 0) {
          Block b = statements(true);
          bl_list.add(b);
+         if(isReturn()) {
+       	  match(TokenType.Ret);
+       	  ret=expression();
+       	  color_box_color = token.color();
+         } else {
+       	  ret = null;
+         }
+         ret_list.add(ret);
       }
-      return new Loop(ex_list, bl_list);
+      return new Loop(ex_list, bl_list,ret_list);
    }
 
    private Prt prtStatement() {
@@ -662,10 +687,10 @@ public class Parser {
    public static void main(String args[]) {
       Parser parser = new Parser(new Lexer("test.xlsx"));
       Program prog = parser.program();
-//      prog.display(0);
+      prog.display(0);
       TypeChecker TC = new TypeChecker(prog);
-      if(TC.ValidationStart()) {
-          prog.display(0);
-      }
+//      if(TC.ValidationStart()) {
+//          prog.display(0);
+//      }
    }
 }
