@@ -502,6 +502,8 @@ abstract class Expression {
 
 class Variable extends Expression {
 	private String id;
+	int row = -1;
+	int col = -1;
 
 	Variable(String s) {
 		id = s;
@@ -521,7 +523,24 @@ class Variable extends Expression {
 	}
 
 	public void display(int k) {
-		Program.stringExport(id);
+		if(row == -1) {
+			if(col == -1) {
+				Program.stringExport(id);				
+			} else {
+				Program.stringExport(id);								
+				Program.stringExport("[");
+				Program.stringExport(Integer.toString(col));
+				Program.stringExport("]");
+			}
+		} else {
+			Program.stringExport(id);								
+			Program.stringExport("[");
+			Program.stringExport(Integer.toString(row));
+			Program.stringExport("]");			
+			Program.stringExport("[");
+			Program.stringExport(Integer.toString(col));
+			Program.stringExport("]");			
+		}
 	}
 }
 

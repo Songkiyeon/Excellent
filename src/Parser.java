@@ -204,7 +204,25 @@ public class Parser {
 
    private Assignment assignment() {
       Variable V = new Variable(token.value());
+      
       token = lexer.next();
+
+      if(isLeftBracket()) {
+    	  match(TokenType.LeftBracket);
+    	  int temp_col = Integer.parseInt(token.value());
+    	  token = lexer.next();
+    	  match(TokenType.RightBracket);
+    	  if(isLeftBracket()) {
+    		  match(TokenType.LeftBracket);
+    		  V.row = temp_col;
+    		  V.col = Integer.parseInt(token.value());
+              token = lexer.next();
+              match(TokenType.RightBracket);
+    	  } else {
+    		  V.col = temp_col;
+    	  }
+      }       
+      
       Expression e;
       if(isTwoOp()) {
     	  if(token.type().equals(TokenType.TwoMinus)) { /* -- */

@@ -12,7 +12,7 @@ function excellent() {
 	var flag = true;
 	var s = "asd";
 	asd = 'a';
-	c = a[1][2];
+	e[0][1] = a[1][2];
 
 	if (flag && flag) {
 		c = 2 + a + b;
