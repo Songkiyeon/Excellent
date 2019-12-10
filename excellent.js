@@ -89,10 +89,12 @@ function excellent() {
 		}
 		else break;
 	}
-		ans = a + 1 + 2;
+	
+	if (true) {
+		a = 1;
+		}
 		return ans + root(a,b,c);
 	}
 	a = plus(2 * a + 1,a + 25 * 3);
 	a = a - 100;
-	b = b - 100;
 }

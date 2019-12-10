@@ -267,13 +267,15 @@ public class Parser {
 
       // bodyµé
       color_box_color = token.color();
+      color_box_row = token.row();
       while(token.color() !=0) {
               Block b = statements(true);              
               bl_list.add(b);
-              if(isReturn()) {
+              if(isReturn() && color_box_row == token.row()) {
             	  match(TokenType.Ret);
             	  ret=expression();
             	  color_box_color = token.color();
+                  color_box_row = token.row();
               } else {
             	  ret = null;
               }
@@ -307,13 +309,15 @@ public class Parser {
 
       // bodyµé
       color_box_color = token.color();
+      color_box_row = token.row();
       while (token.color() != 0) {
          Block b = statements(true);
          bl_list.add(b);
-         if(isReturn()) {
+         if(isReturn() && color_box_row == token.row()) {
        	  match(TokenType.Ret);
        	  ret=expression();
        	  color_box_color = token.color();
+          color_box_row = token.row();
          } else {
        	  ret = null;
          }
